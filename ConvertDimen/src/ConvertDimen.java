@@ -26,7 +26,7 @@ public class ConvertDimen {
 	static final String sw600dp = "sw600dp";
 	static final String sw720dp = "sw720dp";
 	static final String sw800dp = "sw800dp";
-	static String expression = null, originFilePath = "", savingPath;
+	static String expression = null, originFilePath = "", savingPath = null;
 	static int inputType;
 	static NodeList nodeList;
 	static String[] mDimenName;
@@ -44,8 +44,7 @@ public class ConvertDimen {
 				if (xmlFile.exists()) {
 					int tail = originFilePath.indexOf("/res/"); 
 					savingPath = originFilePath.substring(0, tail + 4); // /Users/smilee_yang/Documents/workspace/SupportDifferentSize/res
-					System.out.println("savingPath: " + savingPath);
-					System.out.println("Correct file, file name: " + xmlFile.getName());
+					//System.out.println("Correct file, file name: " + xmlFile.getName());
 					
 					DocumentBuilderFactory docBuFactory = DocumentBuilderFactory.newInstance();
 					DocumentBuilder docBuilder = docBuFactory.newDocumentBuilder();
@@ -72,28 +71,28 @@ public class ConvertDimen {
 	
 					for (int i = 0; i < nodeList.getLength(); i++) {
 						nowDimenValue[i] = nodeList.item(i).getFirstChild().getNodeValue();
-						System.out.println("mDimenName: "+mDimenName[i]+" & nowDimenValue="+nowDimenValue[i]);
+						System.out.println("DimenName: "+mDimenName[i]+" & DimenValue="+nowDimenValue[i]);
 					}
 					if (nowDimenValue.length != 0) {
 						System.out.println("-------------------------");
 						System.out.print("This file is based on - 1.sw320dp 2.sw360dp 3.sw600dp 4.sw720dp 5.sw800dp (plz enter the number): ");
-						int densityType = 0;
+						String densityType = null;
+						int nowChoice = 0;
 						do {
-							densityType = Integer.valueOf(readKeyIn());
-							if (densityType == 1 || densityType == 2 || densityType == 3 || densityType == 4 || densityType == 5) {
-								System.out.println("Start convert process, convert from " + types[densityType-1] + " to the others.");
-								inputType = densityType;
+							densityType = readKeyIn();
+							if (densityType.equals("1") || densityType.equals("2") || densityType.equals("3") || densityType.equals("4") || densityType.equals("5")) {
+								nowChoice = Integer.valueOf(densityType);
+								System.out.println("Start convert process, convert from " + types[nowChoice-1] + " to the others.");
+								inputType = nowChoice;
 								filterUnit(nowDimenValue);
 							} else {
 								System.out.print("Please enter the number either 1 or 2 or 3 or 4 or 5 (1.sw320dp 2.sw360dp 3.sw600dp 4.sw720dp 5.sw800dp): ");
 							}
-							break;
-						} while (densityType != 1 || densityType != 2 || densityType != 3 || densityType != 4 || densityType != 5);
+						} while (!densityType.equals("1") && !densityType.equals("2") && !densityType.equals("3") && !densityType.equals("4") && !densityType.equals("5"));
+						System.out.println("Convert process completed.");
 					} else {
 						System.out.println("Can't get dimension values, please check your dimens.xml, thanks.");
 					}
-					System.out.println("Convert process completed.");
-	
 				} else {
 						System.out.print("The path is wrong. Please try again: ");
 				}
@@ -185,7 +184,29 @@ public class ConvertDimen {
 	}
 
 	public static void bufferedFileWriter(String[][] newDimenValue) {
-		
+		String confirmChoice = null;
+		Boolean doubleCheckSavingPath = false;
+		System.out.print("Convert success! Now saving path is: " + savingPath + "\nDo you want to save these files with this path? (Y/N) ");
+		do {
+			confirmChoice = readKeyIn();
+			if (confirmChoice.equalsIgnoreCase("Y")) {
+				System.out.println("Confirmed your saving path is: " + savingPath + ".");
+			} else if (confirmChoice.equalsIgnoreCase("N")) {
+				File checkPath = null;
+				System.out.print("Please enter a path that you want to save these files: ");
+				do {
+					savingPath = readKeyIn();
+					checkPath = new File(savingPath);
+					if (checkPath.exists()) {
+						System.out.print("Correct path. ");
+					} else if (!checkPath.exists()) {
+						System.out.print("Sorry, this path is not a correct path, please try again: ");
+					}
+				}while (!checkPath.exists());
+			} else {
+				System.out.print("Please enter Y or N: ");
+			}
+		} while (!confirmChoice.equalsIgnoreCase("Y") && !confirmChoice.equalsIgnoreCase("N"));
 		int totalTimes = 4;
 		int skipType = inputType-1;
 		int nowSavingType = 0;
