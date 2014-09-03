@@ -5,6 +5,8 @@ res/values-swXXXdp/dimens.xml and convert to the others.
 Now available: sw320dp, sw360dp, sw600dp, sw720dp and sw800dp.
 
 Developed by Smilee with JAVA programming @2014/09/01.
+
+Modified in 2014/09/03.
 -------------------------------------------------------------
 
 Introduction：
@@ -32,8 +34,6 @@ How to use:
 	4. Please enter your dimens.xml located path like: 
 		・/Users/smilee_yang/Documents/workspace/SupportDifferentSize/res/values-sw320dp/dimens.xml
 	5. If the file path is correct, it will show some message:
-		・savingPath: /Users/smilee_yang/Documents/workspace/SupportDifferentSize/res
-		・Correct file, file name: dimens.xml
 		・-------------------------
 		・mDimenName: line_height & nowDimenValue=1dip
 		・mDimenName: text_size & nowDimenValue=6sp
@@ -53,6 +53,15 @@ How to use:
 	6. And I need to enter "1" in this case, but choose a correct type in your case!! 
 	   After entering 1, will show this message:
 		・Start convert process, convert from sw320dp to the others.
-	7. When the process was done, will show the success message: 		・Convert process completed.
+		・Convert success! Now saving path is: /Users/smilee_yang/Documents/workspace/SupportDifferentSize/res
+		・Do you want to save these files with this path? (Y/N)
+	7. Then, you should choose your saving path is the path that program parse(by entering: Y or y), or a new path(by entering: N or n).
+	***if entering Y:
+		・Confirmed your saving path is: /Users/smilee_yang/Documents/workspace/SupportDifferentSize/res.
+		 When the process was done, will show the success message: 		・Convert process completed.
+	***else if entering N:
+		・Please enter a path that you want to save these files: 
+		And you should give a correct path to save these files. After that...
+		・Correct path. Convert process completed.
 	8. Then you can check your new dimens.xml files!!
 	
