@@ -204,6 +204,7 @@ public class ConvertDimen {
 		int totalTimes = 4;
 		int skipType = inputType-1;
 		int nowSavingType = 0;
+		int times = 0;
 		String fileType = null;
 		do {
 			fileType = types[nowSavingType];
